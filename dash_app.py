@@ -44,14 +44,16 @@ line_fig = px.line(
     markers=True
 )
 line_fig.update_layout(template='plotly_white', title_x=0.5, width=900, height=300, title_font=dict(size=15),
-                       margin=dict(l=50, r=50, t=50, b=50), )
+                       margin=dict(l=50, r=50, t=50, b=50))
 
 # Heatmap Data
 hourly_error_counts = filtered_data
 hourly_error_counts['date_hour'] = hourly_error_counts['datetime'].dt.floor('H')
 hourly_error_counts = hourly_error_counts.groupby(['date_hour', 'view_id']).size().reset_index(name='frequency')
 hourly_error_counts['hour'] = hourly_error_counts['date_hour'].dt.time
-hourly_error_counts = hourly_error_counts.sort_values(by=['view_id', 'hour'])
+hourly_error_counts = hourly_error_counts.sort_values(by=['view_id'])
+hourly_error_counts = hourly_error_counts.sort_values(by=['hour'])
+
 heatmap_fig = px.density_heatmap(
     hourly_error_counts,
     x='hour',
