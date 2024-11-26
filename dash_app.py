@@ -5,18 +5,13 @@ import plotly.express as px
 import gdown
 
 # Load the data
-file_id = "17YVKeXQY-2GR7WsydxZqa8-ExOUJRuIg"
+file_id = "1LKSjPVavi-3aujfkxqxIRb0akhoGTEcZ"
 url = f"https://drive.google.com/uc?export=download&id={file_id}"
 output_path = 'Extracted_SSESystemLog.csv'
 
 gdown.download(url, output_path, quiet=False)
 
-df = pd.read_csv(output_path)
-
-# Filter the data for specific view IDs and error description
-view_ids = [3001, 3002, 3003, 3004]
-filtered_data = df[
-    (df["view_id"].isin(view_ids)) & (df['error_description'].str.contains("video frame missing", case=False))]
+filtered_data = pd.read_csv(output_path)
 
 # Bar Chart Data
 camera_counts = filtered_data['view_id'].value_counts().reset_index()
